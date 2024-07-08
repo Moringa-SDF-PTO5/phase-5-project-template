@@ -25,7 +25,14 @@ jobs:
       run: pip install pipenv
 
     - name: Install dependencies
-      run: pipenv install --dev
+      run: |
+        pipenv --python 3.8
+        pipenv install --dev
+      working-directory: ./server
+
+    - name: Ensure flake8 is installed
+      run: pipenv install flake8 --dev
+      working-directory: ./server
 
     - name: Lint
       run: pipenv run flake8 .
