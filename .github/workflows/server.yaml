@@ -30,8 +30,12 @@ jobs:
         pipenv install --dev
       working-directory: ./server
 
-    - name: Ensure flake8 is installed
-      run: pipenv install flake8 --dev
+    - name: Ensure flake8 and autopep8 are installed
+      run: pipenv install flake8 autopep8 --dev
+      working-directory: ./server
+
+    - name: Fix linting issues
+      run: pipenv run autopep8 --in-place --aggressive --aggressive $(find . -name "*.py")
       working-directory: ./server
 
     - name: Lint
