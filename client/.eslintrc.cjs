@@ -4,7 +4,6 @@ module.exports = {
     browser: true,
     es2020: true,
     jest: true,
-    node: true,
   },
   extends: [
     'eslint:recommended',
@@ -19,7 +18,9 @@ module.exports = {
     ecmaFeatures: { jsx: true },
   },
   settings: {
-    react: { version: '18.3' },
+    react: {
+      version: 'detect', // Automatically detect the React version
+    },
   },
   plugins: ['react', 'jest'],
   rules: {
@@ -28,7 +29,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['*.config.js'],
+      files: ['*.config.js', 'jest.config.js'], // Add 'jest.config.js' here
       env: {
         node: true, // Node environment for config files
       },
