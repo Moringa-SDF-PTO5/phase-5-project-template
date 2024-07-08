@@ -8,14 +8,11 @@ module.exports = {
     'plugin:react-hooks/recommended',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
-  parserOptions: { ecmaVersion: 'latest', sourceType: 'module', ecmaFeatures: { jsx: true }},
-  settings: { react: { version: '18.2' } },
-  plugins: ['react-refresh'],
+  parserOptions: { ecmaVersion: 12, sourceType: 'module', ecmaFeatures: { jsx: true }},
+  settings: { react: { version: '18.3' } },
+  plugins: ['react', 'jest'],
   rules: {
-    'react/jsx-no-target-blank': 'off',
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
-    ],
+    'react/react-in-jsx-scope': 'off', // Disable rule requiring React in scope for JSX (for React 17+)
+    'no-undef': 'off', // Turn off 'no-undef' for jest globals
   },
 }
