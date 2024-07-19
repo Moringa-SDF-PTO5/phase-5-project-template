@@ -14,6 +14,9 @@ db.init_app(app)
 # def create_tables():
 #     db.create_all()
 
+@app.route('/')
+def index():
+    return jsonify({"message": "Hello, World!"})
 @app.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
@@ -79,4 +82,4 @@ def update_product(product_id):
         return jsonify({'message': 'Product not found'}),
 
 if __name__ == '__main__':
-    app.run(debug=True)        
+    app.run(host='0.0.0.0', port=5001, debug=True)       
