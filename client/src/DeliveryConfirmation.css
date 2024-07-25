@@ -1,5 +1,5 @@
-
-.order-confirmation {
+/* src/DeliveryConfirmation.css */
+.delivery-confirmation {
   text-align: center;
   padding: 20px;
   background-color: #ffffff;
@@ -9,43 +9,35 @@
   max-width: 800px;
   width: 100%;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh; /* Ensure the footer is at the bottom */
 }
 
-.order-confirmation h1 {
-  color: #007BFF;
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.order-status {
-  margin: 20px 0;
-  padding: 10px;
-  background-color: #f1f1f1; /* Light grey background for sections */
+.product {
+  border: 1px solid #ddd;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  color: #333333; /* Dark text color for better contrast */
-}
-
-.view-order-button {
-  background-color: #007BFF;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
-}
-
-.view-order-button:hover {
-  background-color: #0056b3;
+  padding: 20px;
+  margin: 10px;
+  width: 200px;
+  background-color: #f9f9f9;
 }
 
 .footer {
   display: flex;
   justify-content: space-around;
-  margin-top: 40px;
   padding: 10px;
   background-color: #f1f1f1; /* Light grey background for footer */
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
 }
 
 .contact-info, .address {
