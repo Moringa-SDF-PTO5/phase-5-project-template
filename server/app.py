@@ -1,12 +1,15 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_cors import CORS
 from models import db, User, Product, Category, Order, OrderItem, Address, Payment
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://group2_electronics_project_user:wYWHOsnDi3EgTzVU0hVb2c7Zt4Fej1wC@dpg-cqch7lmehbks738g4k80-a.frankfurt-postgres.render.com/group2_electronics_project'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://group2_electronics_project_3nds_user:W7lH5WhzPpazqIBxlTXxVs1rd9rPLwi2@dpg-cqh45tiju9rs73efvvig-a.frankfurt-postgres.render.com/group2_electronics_project_3nds'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+     # Configure CORS
+    CORS(app, resources={r"/*": {"origins": "*"}})
     db.init_app(app)
     migrate = Migrate(app, db)
     return app
