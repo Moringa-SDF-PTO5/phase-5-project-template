@@ -49,15 +49,13 @@ def register():
 
 @app.route('/login', methods=['POST'])
 def login():
-    data = request.get_json()
-    username = data['username']
-    password = data['password']
-    
-    user = User.query.filter_by(username=username).first()
-    
-    if user and user.check_password(password):
-        return jsonify(user.to_dict()), 200
+    data = request.json
+    user = User.query.filter_by(username=data['username']).first()
+    if user and user.password == data['password']:
+        return jsonify({'user_id':user.user_id, 'username':user.username, 'email': user.email, 'role': user.role}), 200
     return jsonify({'message': 'Invalid credentials'}), 401
+
+    
 
 @app.route('/categories', methods=['POST'])
 def create_category():
