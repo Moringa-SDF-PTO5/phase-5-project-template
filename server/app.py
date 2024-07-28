@@ -2,19 +2,20 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
-from models import db, User, Product, Category, Order, OrderItem, Address, Payment
+from models import db, User, Staff, Product, Category, Order, OrderItem, Address, Payment
+
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://group2_electronics_project_3nds_user:W7lH5WhzPpazqIBxlTXxVs1rd9rPLwi2@dpg-cqh45tiju9rs73efvvig-a.frankfurt-postgres.render.com/group2_electronics_project_3nds'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://group2_electronics_pdb_user:KiuZM4dGNILp4vYJTnZSeqhhtx6NYTef@dpg-cqj4968gph6c73912uvg-a.frankfurt-postgres.render.com/group2_electronics_pdb'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-     # Configure CORS
+    # Configure CORS
     CORS(app, resources={r"/*": {"origins": "*"}})
     db.init_app(app)
     migrate = Migrate(app, db)
     return app
 
-app=create_app()    
+app = create_app()
 
 @app.route('/')
 def index():
@@ -52,22 +53,63 @@ def login():
     data = request.json
     user = User.query.filter_by(username=data['username']).first()
     if user and user.password == data['password']:
-        return jsonify({'user_id':user.user_id, 'username':user.username, 'email': user.email, 'role': user.role}), 200
+        return jsonify({'user_id': user.user_id, 'username': user.username, 'email': user.email, 'role': user.role}), 200
     return jsonify({'message': 'Invalid credentials'}), 401
 
-    
+# Staff endpoints
+@app.route('/staffs', methods=['POST'])
+def add_staff():
+    data = request.json
+    new_staff = Staff(
+        first_name=data['first_name'],
+        last_name=data['last_name'],
+        email=data['email'],
+        role=data.get('role')
+    )
+    db.session.add(new_staff)
+    db.session.commit()
+    return jsonify(new_staff.to_dict()), 201
 
+@app.route('/staffs', methods=['GET'])
+def get_staff():
+    staffs = Staff.query.all()
+    return jsonify([staff.to_dict() for staff in staffs])
+
+@app.route('/staffs/<int:staff_id>', methods=['GET'])
+def get_staff_by_id(staff_id):
+    staff = Staff.query.get_or_404(staff_id)
+    return jsonify(staff.to_dict())
+
+@app.route('/staffs/<int:staff_id>', methods=['PUT'])
+def update_staff(staff_id):
+    staff = Staff.query.get_or_404(staff_id)
+    data = request.json
+    staff.first_name = data.get('first_name', staff.first_name)
+    staff.last_name = data.get('last_name', staff.last_name)
+    staff.email = data.get('email', staff.email)
+    staff.role = data.get('role', staff.role)
+    db.session.commit()
+    return jsonify(staff.to_dict())
+
+@app.route('/staffs/<int:staff_id>', methods=['DELETE'])
+def delete_staff(staff_id):
+    staff = Staff.query.get_or_404(staff_id)
+    db.session.delete(staff)
+    db.session.commit()
+    return '', 204
+
+# Category endpoints
 @app.route('/categories', methods=['POST'])
 def create_category():
     try:
         data = request.get_json()
-        name = data.get('name')
+        category_name = data.get('category_name')
         description = data.get('description')
         
-        if not name:
+        if not category_name:
             return jsonify({'message': 'Category name is required'}), 400
         
-        new_category = Category(name=name, description=description)
+        new_category = Category(category_name=category_name, description=description)
         db.session.add(new_category)
         db.session.commit()
         
@@ -97,11 +139,11 @@ def update_category(category_id):
         data = request.get_json()
         category = Category.query.get_or_404(category_id)
         
-        name = data.get('name')
+        category_name = data.get('category_name')
         description = data.get('description')
         
-        if name:
-            category.name = name
+        if category_name:
+            category.category_name = category_name
         if description is not None:
             category.description = description
         
@@ -122,6 +164,7 @@ def delete_category(category_id):
     except Exception as e:
         return jsonify({'message': 'An error occurred', 'error': str(e)}), 500
 
+# Product endpoints
 @app.route('/products', methods=['GET'])
 def get_products():
     products = Product.query.all()
@@ -167,6 +210,8 @@ def update_product(product_id):
         product.price = data['price']
     if 'category_id' in data:
         product.category_id = data['category_id']
+    if 'category_name' in data:
+        product.category_name = data['category_name']    
     if 'stock_quantity' in data:
         product.stock_quantity = data['stock_quantity']
     
@@ -183,6 +228,7 @@ def delete_product(product_id):
     db.session.commit()
     return jsonify({'message': 'Product deleted successfully'}), 200
 
+# Order endpoints
 @app.route('/orders', methods=['GET'])
 def get_orders():
     orders = Order.query.all()
@@ -201,9 +247,11 @@ def add_order():
     data = request.get_json()
     user_id = data['user_id']
     total_amount = data['total_amount']
-    status = data.get('status', 'pending')
+    status = data['status']
+    address_id = data['address_id']
+    payment_id = data['payment_id']
     
-    new_order = Order(user_id=user_id, total_amount=total_amount, status=status)
+    new_order = Order(user_id=user_id, total_amount=total_amount, status=status, address_id=address_id, payment_id=payment_id)
     db.session.add(new_order)
     db.session.commit()
     return jsonify(new_order.to_dict()), 201
@@ -215,12 +263,14 @@ def update_order(order_id):
     if not order:
         return jsonify({'message': 'Order not found'}), 404
 
-    if 'user_id' in data:
-        order.user_id = data['user_id']
     if 'total_amount' in data:
         order.total_amount = data['total_amount']
     if 'status' in data:
         order.status = data['status']
+    if 'address_id' in data:
+        order.address_id = data['address_id']
+    if 'payment_id' in data:
+        order.payment_id = data['payment_id']
     
     db.session.commit()
     return jsonify(order.to_dict()), 200
@@ -235,20 +285,14 @@ def delete_order(order_id):
     db.session.commit()
     return jsonify({'message': 'Order deleted successfully'}), 200
 
-@app.route('/order-items', methods=['GET'])
-def get_order_items():
-    order_items = OrderItem.query.all()
-    result = [item.to_dict() for item in order_items]
-    return jsonify(result), 200
-
-@app.route('/order-items/<int:order_item_id>', methods=['GET'])
+@app.route('/order_items/<int:order_item_id>', methods=['GET'])
 def get_order_item(order_item_id):
     order_item = OrderItem.query.get(order_item_id)
     if not order_item:
         return jsonify({'message': 'Order item not found'}), 404
     return jsonify(order_item.to_dict()), 200
 
-@app.route('/order-items', methods=['POST'])
+@app.route('/order_items', methods=['POST'])
 def add_order_item():
     data = request.get_json()
     order_id = data['order_id']
@@ -261,7 +305,7 @@ def add_order_item():
     db.session.commit()
     return jsonify(new_order_item.to_dict()), 201
 
-@app.route('/order-items/<int:order_item_id>', methods=['PUT'])
+@app.route('/order_items/<int:order_item_id>', methods=['PUT'])
 def update_order_item(order_item_id):
     data = request.get_json()
     order_item = OrderItem.query.get(order_item_id)
@@ -280,7 +324,7 @@ def update_order_item(order_item_id):
     db.session.commit()
     return jsonify(order_item.to_dict()), 200
 
-@app.route('/order-items/<int:order_item_id>', methods=['DELETE'])
+@app.route('/order_items/<int:order_item_id>', methods=['DELETE'])
 def delete_order_item(order_item_id):
     order_item = OrderItem.query.get(order_item_id)
     if not order_item:
@@ -408,7 +452,6 @@ def delete_payment(payment_id):
     db.session.delete(payment)
     db.session.commit()
     return jsonify({'message': 'Payment deleted successfully'}), 200
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)       
