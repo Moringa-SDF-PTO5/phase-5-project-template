@@ -13,6 +13,9 @@ class User(db.Model):
     orders = db.relationship('Order', back_populates='user', lazy=True)
     addresses = db.relationship('Address', back_populates='user', lazy=True)
 
+    orders = db.relationship('Order', back_populates='user', lazy=True)
+    addresses = db.relationship('Address', back_populates='user', lazy=True)
+
     def to_dict(self):
         return {
             'user_id': self.user_id,
@@ -68,13 +71,17 @@ class Category(db.Model):
     __tablename__ = 'categories'
     category_id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.String(120), nullable=False)
+    category_name = db.Column(db.String(120), nullable=False)
     description = db.Column(db.Text)
+
+    products = db.relationship('Product', back_populates='category')
 
     products = db.relationship('Product', back_populates='category')
 
     def to_dict(self):
         return {
             'category_id': self.category_id,
+            'category_name': self.category_name,
             'category_name': self.category_name,
             'description': self.description,
         }
@@ -97,7 +104,7 @@ class Order(db.Model):
             'total_amount': self.total_amount,
             'status': self.status,
         }
-
+          
 class OrderItem(db.Model):
     __tablename__ = 'order_items'
     order_item_id = db.Column(db.Integer, primary_key=True)
@@ -105,6 +112,9 @@ class OrderItem(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey('products.product_id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float, nullable=False)
+
+    order = db.relationship('Order', back_populates='order_items')
+    product = db.relationship('Product', back_populates='order_items')
 
     order = db.relationship('Order', back_populates='order_items')
     product = db.relationship('Product', back_populates='order_items')
