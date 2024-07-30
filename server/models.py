@@ -55,6 +55,7 @@ class Product(db.Model):
         return {
             'product_id': self.product_id,
             'name': self.name,
+            'image': self.image,
             'description': self.description,
             'price': self.price,
             'category_id': self.category_id,
