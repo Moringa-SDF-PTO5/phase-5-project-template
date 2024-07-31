@@ -1,4 +1,4 @@
-import React, { useContext, useState} from 'react';
+import React, { useContext,useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from './AppContext';
 import techlogo from './assets/techlogo.png';
@@ -8,7 +8,6 @@ import profile from './assets/profile.png';
 
 const Navbar = () => {
   const { isLoggedIn, logout, cartItems } = useContext(AppContext);
-  const [showCartDropdown, setShowCartDropdown] = useState(false);
   const [showProfileOptions, setShowProfileOptions] = useState(false);
   const navigate = useNavigate();
 
@@ -17,11 +16,7 @@ const Navbar = () => {
   };
 
   const handleCartClick = () => {
-    if (isLoggedIn) {
-      navigate('/ordering');
-    } else {
-      navigate('/login'); 
-    }
+    navigate('/ordering');
   };
 
   const handleProfileClick = () => {
@@ -33,9 +28,11 @@ const Navbar = () => {
     setShowProfileOptions(false);
   };
 
+  const cartItemCount = cartItems.reduce((count, item) => count + item.quantity, 0);
+
   return (
     <nav className="navbar">
-        <div className='title'>
+      <div className='title'>
       <img src={techlogo} alt="Tech Haven Logo" className="logo" />
       <h1>TECH HAVEN</h1>
       </div>
@@ -43,27 +40,9 @@ const Navbar = () => {
         <button className="icon-btn" onClick={handleHomeClick}>
           <img src={home} alt="Home" className="icon" />
         </button>
-        <div
-          className="icon-btn"
-          onMouseEnter={() => setShowCartDropdown(true)}
-          onMouseLeave={() => setShowCartDropdown(false)}
-          onClick={handleCartClick}
-        >
+        <div className="icon-btn" onClick={handleCartClick}>
           <img src={cart} alt="Cart" className="icon" />
-          {showCartDropdown && (
-            <div className="cart-dropdown">
-              {cartItems.length > 0 ? (
-                cartItems.map((item) => (
-                  <div key={item.id} className="cart-item">
-                    <p>{item.name}</p>
-                    <p>Qty: {item.quantity}</p>
-                  </div>
-                ))
-              ) : (
-                <p>No items in cart</p>
-              )}
-            </div>
-          )}
+          {cartItemCount > 0 && <span className="cart-count">{cartItemCount}</span>}
         </div>
         <div className="icon-btn" onClick={handleProfileClick}>
           <img src={profile} alt="Profile" className="icon" />
