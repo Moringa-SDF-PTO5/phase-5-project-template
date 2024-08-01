@@ -50,7 +50,6 @@ const Navbar = () => {
             <div className="profile-options">
               {isLoggedIn ? (
                 <>
-                  <div className="option">Change Password</div>
                   <div className="option">My Orders</div>
                   <div className="option" onClick={handleLogout}>Log out</div>
                 </>

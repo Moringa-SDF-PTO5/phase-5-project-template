@@ -9,6 +9,7 @@ import { AppContext } from './AppContext';
 
 const HomePage = () => {
   const [categories, setCategories] = useState([]);
+  const [originalCategories, setOriginalCategories] = useState([]);
   const [carouselProducts, setCarouselProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -33,6 +34,7 @@ const HomePage = () => {
           return acc;
         }, {});
         setCategories(Object.entries(categorizedProducts));
+        setOriginalCategories(Object.entries(categorizedProducts)); // Store original categories
         setCarouselProducts(data.slice(0, 10));
       })
       .catch((error) => console.error('Error fetching products:', error));
@@ -73,7 +75,7 @@ const HomePage = () => {
     const min = minPrice ? parseFloat(minPrice) : 0;
     const max = maxPrice ? parseFloat(maxPrice) : Infinity;
 
-    const filteredCategories = categories.map(([categoryName, products]) => {
+    const filteredCategories = originalCategories.map(([categoryName, products]) => {
       const filteredProducts = products.filter((product) => {
         const matchesName = product.name.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesCategory = selectedCategory ? product.category_name === selectedCategory : true;
@@ -93,6 +95,7 @@ const HomePage = () => {
     setSelectedCategory('');
     setMinPrice('');
     setMaxPrice('');
+    setCategories(originalCategories); // Reset categories to original state
     setShowAdvancedSearch(false);
   };
 
@@ -143,7 +146,7 @@ const HomePage = () => {
                 </div>
               ))}
               <div className="view-all" onClick={() => handleViewAll(categoryName)}>
-                <p>→ View All</p>
+                <p>View All</p>
               </div>
             </div>
           </div>
@@ -186,9 +189,11 @@ const HomePage = () => {
                   onChange={(e) => setSelectedCategory(e.target.value)}
                 >
                   <option value="">All Categories</option>
-                  {categories.map(([categoryName]) => (
-                    <option key={categoryName} value={categoryName}>{categoryName}</option>
-                  ))}
+                  {categories
+                    .filter(([categoryName]) => !selectedCategory || categoryName === selectedCategory)
+                    .map(([categoryName]) => (
+                      <option key={categoryName} value={categoryName}>{categoryName}</option>
+                    ))}
                 </select>
               </div>
               <div>
