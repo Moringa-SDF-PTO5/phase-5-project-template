@@ -6,7 +6,7 @@ const DeliveryConfirmation = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/products') // Ensure this URL matches your Flask backend URL
+    fetch('http://localhost:5000/api/products') 
       .then(response => response.json())
       .then(data => setProducts(data))
       .catch(error => console.error('Error fetching products:', error));
