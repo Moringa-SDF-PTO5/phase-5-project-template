@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from './NavBar';
 import Footer from './footer';
 import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Ensure the styles are imported
 import options from './assets/options.png';
 import { AppContext } from './AppContext';
 
@@ -20,6 +20,7 @@ const HomePage = () => {
   const [maxPrice, setMaxPrice] = useState('');
 
   const { addToCart } = useContext(AppContext);
+  
   const navigate = useNavigate();
 
   useEffect(() => {
