@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Navbar from './NavBar';
 import Footer from './footer';
 // import './DeliveryConfirmation.css';
-// import './DeliveryConfirmation.css';
 
 const DeliveryConfirmation = () => {
   const [products, setProducts] = useState([]);
@@ -25,6 +24,9 @@ const DeliveryConfirmation = () => {
             <h2>{product.name}</h2>
             <p>{product.description}</p>
             <p>Price: ${product.price}</p>
+            <p>
+              Seller Confirmation: {product.isConfirmed ? 'Confirmed' : 'Pending'}
+            </p>
           </div>
         ))}
       </div>
