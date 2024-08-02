@@ -91,23 +91,22 @@ npm test
 
 ## Contributing
 
-Provide guidelines for contributing to your project. Include instructions on how to submit issues, make pull requests, and any coding standards or conventions to follow.
+Contributions are welcome! To contribute:
+
+Fork the repository.
+Create a new branch.
+Make your changes.
+Submit a pull request with a detailed description of your changes
 
 ## License
 
-Specify the license under which your project is distributed.
+This project is licensed under the MIT License.
 
----
+Copyright 2024
 
-Feel free to modify this template to suit your specific project needs. Include additional sections as necessary to provide comprehensive documentation for your users and contributors.
-```
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-### Customization Tips
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-- **Details**: Expand each section with specific details relevant to your project.
-- **Badges**: Add badges for build status, coverage, etc., using services like Travis CI, Codecov, etc.
-- **Screenshots/GIFs**: Include visual elements to showcase your project if applicable.
-- **Dependencies**: List major dependencies and versions.
-- **Deployment**: If relevant, include instructions for deployment or hosting.
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
 
-Customize this template to best fit your project’s structure and needs. It will help provide clear documentation for users and potential contributors to understand and interact with your project effectively.
