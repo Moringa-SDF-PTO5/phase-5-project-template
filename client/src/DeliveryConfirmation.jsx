@@ -1,4 +1,4 @@
-// src/DeliveryConfirmation.jsx
+
 import React, { useEffect, useState } from 'react';
 import './DeliveryConfirmation.css';
 
@@ -21,6 +21,9 @@ const DeliveryConfirmation = () => {
             <h2>{product.name}</h2>
             <p>{product.description}</p>
             <p>Price: ${product.price}</p>
+            <p>
+              Seller Confirmation: {product.isConfirmed ? 'Confirmed' : 'Pending'}
+            </p>
           </div>
         ))}
       </div>
