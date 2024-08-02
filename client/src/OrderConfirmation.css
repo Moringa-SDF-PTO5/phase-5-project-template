@@ -1,13 +1,20 @@
+
 /* Center the confirmation content and ensure responsiveness */
+
+body{
+  height: 100vh;
+  width:100vw;
+}
+
 .order-confirmation {
   text-align: center;
-  padding: 20px;
+  padding: 125px;
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   color: #333333;
-  max-width: 800px;
   width: 100%;
+  height:100%;
   box-sizing: border-box;
   margin: 20px auto; /* Center the div horizontally with margin */
 }
@@ -44,6 +51,7 @@
 .continue-shopping-button:hover {
   background-color: #0056b3;
 }
+
 
 /* Add styling for Footer to align with design */
 .footer {

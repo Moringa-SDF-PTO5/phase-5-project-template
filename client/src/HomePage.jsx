@@ -96,7 +96,7 @@ const HomePage = () => {
     setSelectedCategory('');
     setMinPrice('');
     setMaxPrice('');
-    setCategories(originalCategories); // Reset categories to original state
+    setCategories(originalCategories); 
     setShowAdvancedSearch(false);
   };
 
