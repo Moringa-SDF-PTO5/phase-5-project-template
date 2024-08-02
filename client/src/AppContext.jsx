@@ -22,13 +22,35 @@ export const AppProvider = ({ children }) => {
       }
     });
   };
-  
+
+  const updateQuantity = (productId, newQuantity) => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.product_id === productId
+          ? { ...item, quantity: newQuantity }
+          : item
+      )
+    );
+  };
+
+  const removeItem = (productId) => {
+    setCartItems((prevItems) => prevItems.filter(item => item.product_id !== productId));
+  };
 
   const clearCart = () => setCartItems([]);
 
   return (
     <AppContext.Provider
-      value={{ isLoggedIn, login, logout, cartItems, addToCart, clearCart }}
+      value={{
+        isLoggedIn,
+        login,
+        logout,
+        cartItems,
+        addToCart,
+        updateQuantity,
+        removeItem,
+        clearCart
+      }}
     >
       {children}
     </AppContext.Provider>
