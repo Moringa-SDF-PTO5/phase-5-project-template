@@ -1,6 +1,6 @@
 // src/DeliveryConfirmation.jsx
 import React, { useEffect, useState } from 'react';
-import './DeliveryConfirmation.css';
+// import './DeliveryConfirmation.css';
 
 const DeliveryConfirmation = () => {
   const [products, setProducts] = useState([]);
