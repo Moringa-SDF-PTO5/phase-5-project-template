@@ -1,6 +1,7 @@
-// src/DeliveryConfirmation.jsx
 import React, { useEffect, useState } from 'react';
-import './DeliveryConfirmation.css';
+import Navbar from './NavBar';
+import Footer from './footer';
+// import './DeliveryConfirmation.css';
 
 const DeliveryConfirmation = () => {
   const [products, setProducts] = useState([]);
@@ -13,6 +14,8 @@ const DeliveryConfirmation = () => {
   }, []);
 
   return (
+    <div>
+    <Navbar />
     <div className="delivery-confirmation">
       <h1>Delivery Confirmation</h1>
       <div className="products">
@@ -24,17 +27,8 @@ const DeliveryConfirmation = () => {
           </div>
         ))}
       </div>
-      <footer className="footer">
-        <div className="contact-info">
-          <h3>Contact</h3>
-          <p>+2547123456789</p>
-        </div>
-        <div className="address">
-          <h3>Physical Address</h3>
-          <p>Luthuli Street, Nairobi</p>
-          <p>TECH HAVEN</p>
-        </div>
-      </footer>
+    </div>
+    <Footer />
     </div>
   );
 };
